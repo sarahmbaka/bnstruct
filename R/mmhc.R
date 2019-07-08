@@ -56,7 +56,7 @@ hc <- function( data, node.sizes, scoring.func = 0, cpc, cont.nodes = c(), ess =
           }
       }
       diag(layers) <- 0
-
+      print(layers)
       # keep only edges allowed by both the CPC / initial network and the layering
       cpc <- cpc & layers
       
