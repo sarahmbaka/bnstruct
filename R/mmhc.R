@@ -191,7 +191,7 @@ hc <- function( data, node.sizes, scoring.func = 0, cpc, cont.nodes = c(), ess =
 
 mmpc <- function( data, node.sizes, cont.nodes = NULL, chi.th = 0.05,
 		  layering = NULL, layer.struct = NULL, 
-                  max.fanin=length(node.sizes)-1, mandatory.edges = NULL )
+                  max.fanin=length(node.sizes)-1, mandatory.edges = NULL, l=NULL )
 						
 {
   n.nodes <- ncol(data)
@@ -232,7 +232,9 @@ mmpc <- function( data, node.sizes, cont.nodes = NULL, chi.th = 0.05,
   print(n.layers)
   print(layering)
   print(layer.struct)
-  
+  if (!is.null(l)){
+    layer.struct<-l
+  }
   # apply layering
   layer.mat <- matrix(1, n.nodes, n.nodes) 
   for( i in 1:n.layers )
