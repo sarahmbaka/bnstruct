@@ -234,6 +234,7 @@ mmpc <- function( data, node.sizes, cont.nodes = NULL, chi.th = 0.05,
   if (!is.null(custom)){
     layer.struct<-custom
     print(layer.struct)
+    print(custom)
     
   }
   # apply layering
