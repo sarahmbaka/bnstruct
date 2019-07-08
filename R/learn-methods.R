@@ -51,12 +51,12 @@ setMethod("learn.network",
                                           initial.network, alpha, ess, bootstrap, layering,
                                           max.fanin, max.fanin.layers, max.parents, max.parents.layers,
                                           layer.struct, cont.nodes, use.imputed.data, use.cpc,
-                                          mandatory.edges,l=NULL ...)
+                                          mandatory.edges,custom=NULL ...)
             } else {
               bn <- learn.structure(bn, dataset, algo, scoring.func, initial.network, alpha, ess,
                                     bootstrap, layering, max.fanin, max.fanin.layers, max.parents,
                                     max.parents.layers, layer.struct, cont.nodes, use.imputed.data,
-                                    use.cpc, mandatory.edges,l ...)
+                                    use.cpc, mandatory.edges,custom ...)
               
               if (!bootstrap && algo != "mmpc")
                 bn <- learn.params(bn, dataset, ess, use.imputed.data)
@@ -74,7 +74,7 @@ setMethod("learn.dynamic.network",
                    max.fanin = num.variables(y) - 1, max.fanin.layers = NULL,
                    max.parents = num.variables(y) - 1, max.parents.layers = NULL,
                    layer.struct = NULL, cont.nodes = c(), use.imputed.data = FALSE, use.cpc = TRUE,
-                   mandatory.edges = NULL, l=NULL , ...)
+                   mandatory.edges = NULL, custom=NULL , ...)
           {
             if (is.null(y) || class(y) != "BNDataset")
               stop("A BNDataset must be provided in order to learn a network from it. ",
@@ -133,13 +133,13 @@ setMethod("learn.dynamic.network",
               }
               layer.struct <- tmp.ls
             }
-            if (!is.null(l)){
-              layer.struct<-l
+            if (!is.null(custom)){
+              layer.struct<-custom
             }
             
             bn <- learn.structure(bn, dataset, algo, scoring.func, initial.network, alpha, ess,
                                   bootstrap, layering, max.fanin, max.fanin.layers, max.parents, max.parents.layers,
-                                  layer.struct, cont.nodes, use.imputed.data, use.cpc, mandatory.edges,l, ...)
+                                  layer.struct, cont.nodes, use.imputed.data, use.cpc, mandatory.edges,custom, ...)
             
             if (!bootstrap && algo != "mmpc")
               bn <- learn.params(bn, dataset, ess, use.imputed.data)
@@ -155,7 +155,7 @@ setMethod("learn.dynamic.network",
                    max.fanin = num.variables(x) - 1, max.fanin.layers = NULL,
                    max.parents = num.variables(x) - 1, max.parents.layers = NULL,
                    layer.struct = NULL, cont.nodes = c(), use.imputed.data = FALSE, use.cpc = TRUE,
-                   mandatory.edges = NULL, l=NULL ,...) {
+                   mandatory.edges = NULL, custom=NULL ,...) {
             
             dataset <- x
             bn <- BN(dataset)
@@ -214,7 +214,7 @@ setMethod("learn.dynamic.network",
             bn <- learn.structure(bn, dataset, algo, scoring.func, initial.network, alpha, ess,
                                   bootstrap, layering, max.fanin, max.fanin.layers, max.parents,
                                   max.parents.layers, layer.struct, cont.nodes, use.imputed.data,
-                                  use.cpc, mandatory.edges, l, ...)
+                                  use.cpc, mandatory.edges, custom, ...)
             
             if (!bootstrap && algo != "mmpc")
               bn <- learn.params(bn, dataset, ess, use.imputed.data)
@@ -311,7 +311,7 @@ setMethod("learn.structure",
                    max.fanin = num.variables(dataset) - 1, max.fanin.layers = NULL,
                    max.parents = num.variables(dataset) - 1, max.parents.layers = NULL,
                    layer.struct = NULL, cont.nodes = c(), use.imputed.data = FALSE, use.cpc = TRUE,
-                   mandatory.edges = NULL, l, ...)
+                   mandatory.edges = NULL, custom, ...)
           {
             
             # setup
