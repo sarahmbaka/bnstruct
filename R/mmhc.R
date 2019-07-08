@@ -237,12 +237,11 @@ mmpc <- function( data, node.sizes, cont.nodes = NULL, chi.th = 0.05,
     for( j in 1:n.layers )
       layer.mat[ layering==i, layering==j ] <- layer.struct[i,j]
   diag(layer.mat) <- 0
-  print(layer.mat)
+  
   if (!is.null(custom)){
     layer.mat<-custom
-    print(layer.struct)
-    print(custom)
-    
+    print(layer.mat)
+
   }
   print(layer.struct)
   print(custom)
