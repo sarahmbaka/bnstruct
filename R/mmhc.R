@@ -229,9 +229,9 @@ mmpc <- function( data, node.sizes, cont.nodes = NULL, chi.th = 0.05,
       layer.struct[1,1] <- 0 # default: no edges between nodes at level 1
     }
   }
-  # print(n.layers)
-  # print(layering)
-  # print(layer.struct)
+  print(n.layers)
+  print(layering)
+  print(layer.struct)
   
   # apply layering
   layer.mat <- matrix(1, n.nodes, n.nodes) 
