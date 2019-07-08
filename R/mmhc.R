@@ -231,10 +231,11 @@ mmpc <- function( data, node.sizes, cont.nodes = NULL, chi.th = 0.05,
   }
   print(n.layers)
   print(layering)
-  print(layer.struct)
+  
   if (!is.null(custom)){
     layer.struct<-custom
   }
+  print(layer.struct)
   # apply layering
   layer.mat <- matrix(1, n.nodes, n.nodes) 
   for( i in 1:n.layers )
