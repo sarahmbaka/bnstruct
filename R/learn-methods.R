@@ -505,7 +505,7 @@ setMethod("learn.structure",
                 {
                   data <- boot(dataset, i, use.imputed.data=use.imputed.data)
                   cpc <- mmpc( data, node.sizes, cont.nodes, alpha, layering,
-                               layer.struct, max.fanin=max.fanin, mandatory.edges = mandatory.edges )
+                               layer.struct, max.fanin=max.fanin, mandatory.edges = mandatory.edges , custom=custom)
                   finalPDAG <- finalPDAG + cpc
                 }
                 wpdag(bn) <- finalPDAG
@@ -513,7 +513,7 @@ setMethod("learn.structure",
               else
               {
                 cpc <- mmpc( data, node.sizes, cont.nodes, alpha, layering,
-                             layer.struct, max.fanin=max.fanin, mandatory.edges = mandatory.edges )
+                             layer.struct, max.fanin=max.fanin, mandatory.edges = mandatory.edges ,custom=custom)
                 wpdag(bn) <- cpc
               }
               bnstruct.end.log("learning using MMPC completed.")
