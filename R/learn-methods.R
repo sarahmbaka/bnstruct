@@ -7,7 +7,7 @@ setMethod("learn.network",
                    max.fanin = num.variables(y) -1, max.fanin.layers = NULL,
                    max.parents = num.variables(y) -1, max.parents.layers = NULL,
                    layer.struct = NULL, cont.nodes = c(), use.imputed.data = FALSE, use.cpc = TRUE, 
-                   mandatory.edges = NULL, ...)
+                   mandatory.edges = NULL, custom=NULL, ...)
           {
             if (is.null(y) || class(y) != "BNDataset")
               stop("A BNDataset must be provided in order to learn a network from it. ",
@@ -20,12 +20,12 @@ setMethod("learn.network",
                                           initial.network, alpha, ess, bootstrap, layering,
                                           max.fanin, max.fanin.layers, max.parents, max.parents.layers,
                                           layer.struct, cont.nodes, use.imputed.data, use.cpc, 
-                                          mandatory.edges, ...)
+                                          mandatory.edges,custom, ...)
             } else {
               bn <- learn.structure(bn, dataset, algo, scoring.func, initial.network, alpha, ess,
                                     bootstrap, layering, max.fanin, max.fanin.layers, max.parents,
                                     max.parents.layers, layer.struct, cont.nodes, use.imputed.data, use.cpc,
-                                    mandatory.edges, ...)
+                                    mandatory.edges,custom, ...)
               
               if (!bootstrap && algo != "mmpc")
                 bn <- learn.params(bn, dataset, ess, use.imputed.data)
@@ -42,7 +42,7 @@ setMethod("learn.network",
                    max.fanin = num.variables(x) - 1, max.fanin.layers = NULL,
                    max.parents = num.variables(x) - 1, max.parents.layers = NULL,
                    layer.struct = NULL, cont.nodes = c(), use.imputed.data = FALSE, use.cpc = TRUE,
-                   mandatory.edges = NULL, ...)
+                   mandatory.edges = NULL,custom=NULL, ...)
           {
             dataset <- x
             bn <- BN(dataset)
@@ -51,12 +51,12 @@ setMethod("learn.network",
                                           initial.network, alpha, ess, bootstrap, layering,
                                           max.fanin, max.fanin.layers, max.parents, max.parents.layers,
                                           layer.struct, cont.nodes, use.imputed.data, use.cpc,
-                                          mandatory.edges,custom=NULL ...)
+                                          mandatory.edges,custom=NULL, ...)
             } else {
               bn <- learn.structure(bn, dataset, algo, scoring.func, initial.network, alpha, ess,
                                     bootstrap, layering, max.fanin, max.fanin.layers, max.parents,
                                     max.parents.layers, layer.struct, cont.nodes, use.imputed.data,
-                                    use.cpc, mandatory.edges,custom ...)
+                                    use.cpc, mandatory.edges,custom, ...)
               
               if (!bootstrap && algo != "mmpc")
                 bn <- learn.params(bn, dataset, ess, use.imputed.data)
