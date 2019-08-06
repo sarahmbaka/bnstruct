@@ -265,13 +265,18 @@ setMethod("learn.params",
             # data <- quantize.with.na.matrix( data, levels )
             data <- quantize.matrix( data, levels )
 
-            #n.nodes <- dataset@num.items #dim(data)[2]
+            n.nodes <- dataset@num.items #dim(data)[2]
+            print("Started cpts")
             cpts <- list("list",n.nodes)
             var.names <- c(unlist(variables))  # colnames(data)
+            print("varnames")
+            
             d.names <- mapply(function(name,size)(1:size),var.names,node.sizes)
             # esimate a cpt for each family from data
             for ( i in 1:n.nodes )
             {
+              print("For loop started")
+              
               cat("node " ,i, "\n")
               family <- c( which(dag[,i]!=0), i )
               counts <- .Call( "bnstruct_compute_counts_nas", data[,family], node.sizes[family], 
@@ -292,7 +297,7 @@ setMethod("learn.params",
             }
             names(cpts) <- var.names
             
-            #return( cpts )
+            print( cpts )
             
             cpts(bn) <- cpts
 
