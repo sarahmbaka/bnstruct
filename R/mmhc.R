@@ -1,7 +1,7 @@
 hc <- function( data, node.sizes, scoring.func = 0, cpc, cont.nodes = c(), ess = 1, tabu.tenure = 100, 
                 max.parents = length(node.sizes)-1,
                 init.net = NULL, wm.max=15, layering=NULL, layer.struct=NULL,
-                mandatory.edges = NULL )
+                mandatory.edges = NULL,custom=NULL )
 {
   n.nodes <- ncol(data)
   n.cases <- nrow(data)
@@ -58,6 +58,12 @@ hc <- function( data, node.sizes, scoring.func = 0, cpc, cont.nodes = c(), ess =
       diag(layers) <- 0
       # keep only edges allowed by both the CPC / initial network and the layering
       cpc <- cpc & layers
+      
+      if (!is.null(custom)){
+        cpc<-custom
+        
+      }
+      
       print("cpc")
       print(cpc)
       if (sum(m.edges | t(m.edges)) > 0L && sum(curr.g & layers) == 0L) {
