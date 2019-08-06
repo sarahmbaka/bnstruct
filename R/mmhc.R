@@ -58,7 +58,7 @@ hc <- function( data, node.sizes, scoring.func = 0, cpc, cont.nodes = c(), ess =
       diag(layers) <- 0
       # keep only edges allowed by both the CPC / initial network and the layering
       cpc <- cpc & layers
-      
+      print(cpc)
       if (sum(m.edges | t(m.edges)) > 0L && sum(curr.g & layers) == 0L) {
         stop("the mandatory edges provided are inconsistent with the given layering.\n")
       }
@@ -283,7 +283,7 @@ mmpc <- function( data, node.sizes, cont.nodes = NULL, chi.th = 0.05,
   cpc.mat <- cpc.mat * t(cpc.mat)
   
   # further filter with layering
-  cpc.mat <- cpc.mat * layer.mat
+  #cpc.mat <- cpc.mat * layer.mat
   
   # force mandatory edges
   cpc.mat <- cpc.mat | medges
