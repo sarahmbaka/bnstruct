@@ -268,13 +268,15 @@ setMethod("learn.params",
             # data <- quantize.with.na.matrix( data, levels )
             data <- quantize.matrix( data, levels )
 
-            n.nodes <- dataset@num.items #dim(data)[2]
+           # n.nodes <- dataset@num.items #dim(data)[2]
             cpts <- list("list",n.nodes)
             var.names <- c(unlist(variables))  # colnames(data)
 
             d.names <- mapply(function(name,size)(1:size),var.names,node.sizes)
             # esimate a cpt for each family from data
-            for ( i in 1:(n.nodes-1) )
+            
+            
+            for ( i in 1:n.nodes )
             {
               print(c("node " ,i, "\n"))
               
