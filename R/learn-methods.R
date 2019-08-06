@@ -7,7 +7,7 @@ setMethod("learn.network",
                    max.fanin = num.variables(y) -1, max.fanin.layers = NULL,
                    max.parents = num.variables(y) -1, max.parents.layers = NULL,
                    layer.struct = NULL, cont.nodes = c(), use.imputed.data = FALSE, use.cpc = TRUE, 
-                   mandatory.edges = NULL, custom=NULL, ...)
+                   mandatory.edges = NULL, custom = NULL, ...)
           {
             if (is.null(y) || class(y) != "BNDataset")
               stop("A BNDataset must be provided in order to learn a network from it. ",
@@ -42,7 +42,7 @@ setMethod("learn.network",
                    max.fanin = num.variables(x) - 1, max.fanin.layers = NULL,
                    max.parents = num.variables(x) - 1, max.parents.layers = NULL,
                    layer.struct = NULL, cont.nodes = c(), use.imputed.data = FALSE, use.cpc = TRUE,
-                   mandatory.edges = NULL,custom=NULL, ...)
+                   mandatory.edges = NULL,custom = NULL, ...)
           {
             dataset <- x
             bn <- BN(dataset)
@@ -51,7 +51,7 @@ setMethod("learn.network",
                                           initial.network, alpha, ess, bootstrap, layering,
                                           max.fanin, max.fanin.layers, max.parents, max.parents.layers,
                                           layer.struct, cont.nodes, use.imputed.data, use.cpc,
-                                          mandatory.edges,custom=NULL, ...)
+                                          mandatory.edges,custom= NULL , ...)
             } else {
               bn <- learn.structure(bn, dataset, algo, scoring.func, initial.network, alpha, ess,
                                     bootstrap, layering, max.fanin, max.fanin.layers, max.parents,
@@ -133,6 +133,7 @@ setMethod("learn.dynamic.network",
               }
               layer.struct <- tmp.ls
             }
+            
             if (!is.null(custom)){
               layer.struct<-custom
             }
@@ -210,7 +211,9 @@ setMethod("learn.dynamic.network",
               }
               layer.struct <- tmp.ls
             }
-            
+            if (!is.null(custom)){
+              layer.struct<-custom
+            }
             bn <- learn.structure(bn, dataset, algo, scoring.func, initial.network, alpha, ess,
                                   bootstrap, layering, max.fanin, max.fanin.layers, max.parents,
                                   max.parents.layers, layer.struct, cont.nodes, use.imputed.data,
@@ -549,7 +552,7 @@ setMethod("learn.structure",
                   dag <- hc( data, node.sizes, scoring.func, cpc, cont.nodes, ess = ess,
                              tabu.tenure = tabu.tenure, max.parents = max.parents, init.net = in.dag,
                              wm.max=wm.max, layering=layering, layer.struct=layer.struct,
-                             mandatory.edges = mandatory.edges)
+                             mandatory.edges = mandatory.edges, custom=custom)
                   finalPDAG <- finalPDAG + dag.to.cpdag( dag, layering )
                 }
                 wpdag(bn) <- finalPDAG
@@ -564,7 +567,7 @@ setMethod("learn.structure",
                 dag(bn) <- hc( data, node.sizes, scoring.func, cpc, cont.nodes, ess = ess,
                                tabu.tenure = tabu.tenure, max.parents = max.parents, init.net = in.dag,
                                wm.max=wm.max, layering=layering, layer.struct=layer.struct,
-                               mandatory.edges = mandatory.edges)
+                               mandatory.edges = mandatory.edges,custom=custom)
               }
               bnstruct.end.log("learning using HC completed.")
             } # end if algo == hc
@@ -607,7 +610,7 @@ setMethod("learn.structure",
                   dag <- hc( data, node.sizes, scoring.func, cpc, cont.nodes, ess = ess,
                              tabu.tenure = tabu.tenure, max.parents = max.parents,
                              init.net = in.dag, wm.max=wm.max, layering=layering, layer.struct=layer.struct,
-                             mandatory.edges = mandatory.edges )
+                             mandatory.edges = mandatory.edges ,custom=custom)
                   finalPDAG <- finalPDAG + dag.to.cpdag( dag, layering )
                 }
                 wpdag(bn) <- finalPDAG
@@ -626,7 +629,7 @@ setMethod("learn.structure",
                 dag(bn) <- hc( data, node.sizes, scoring.func, cpc, cont.nodes, ess = ess,
                                tabu.tenure = tabu.tenure, max.parents = max.parents, init.net = in.dag,
                                wm.max=wm.max, layering=layering, layer.struct=layer.struct,
-                               mandatory.edges = mandatory.edges )
+                               mandatory.edges = mandatory.edges ,custom=custom)
               }
               bnstruct.end.log("learning using MMHC completed.")
             } # end if algo == mmhc
