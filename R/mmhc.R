@@ -69,7 +69,7 @@ hc <- function( data, node.sizes, scoring.func = 0, cpc, cont.nodes = c(), ess =
       print("cpc")
       print(cpc)
       if (sum(m.edges | t(m.edges)) > 0L && sum(curr.g & layers) == 0L) {
-        stop("the mandatory edges provided are inconsistent with the given layering.\n")
+       # stop("the mandatory edges provided are inconsistent with the given layering.\n")
       }
   }
   # end apply layering
