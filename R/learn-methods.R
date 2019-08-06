@@ -276,7 +276,7 @@ setMethod("learn.params",
             # esimate a cpt for each family from data
             for ( i in 1:n.nodes )
             {
-              print("node " ,i, "\n")
+              print(c("node " ,i, "\n"))
               
               cat("node " ,i, "\n")
               family <- c( which(dag[,i]!=0), i )
