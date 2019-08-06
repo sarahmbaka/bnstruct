@@ -259,7 +259,8 @@ mmpc <- function( data, node.sizes, cont.nodes = NULL, chi.th = 0.05,
   if ( is.null(mandatory.edges) ) {
     medges <- matrix(0, n.nodes, n.nodes)
   } else {
-    medges <- mandatory.edges | t(mandatory.edges)
+    medges <- mandatory.edges 
+  #  medges <- mandatory.edges | t(mandatory.edges)
   }
   
   # print(cpc.mat)
