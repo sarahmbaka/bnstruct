@@ -94,7 +94,7 @@ hc <- function( data, node.sizes, scoring.func = 0, cpc, cont.nodes = c(), ess =
   {
     next.score.diff <- rep(-Inf,n.nodes)
     next.pert <- rep(-1L,n.nodes)
-    # print(tabu[,,1:10])
+    (tabu[,,1:10])
     # try all possible perturbations
     for( node in 1L:n.nodes )
     {
@@ -190,7 +190,7 @@ hc <- function( data, node.sizes, scoring.func = 0, cpc, cont.nodes = c(), ess =
     # update tabu list
     tabu[,,tabu.pt] <- curr.g
     tabu.pt <- (tabu.pt)%%tabu.tenure + 1
-    # print(curr.g)
+    print(curr.g)
   }
   
   return(global.best.g)
