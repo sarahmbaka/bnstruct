@@ -274,7 +274,7 @@ setMethod("learn.params",
 
             d.names <- mapply(function(name,size)(1:size),var.names,node.sizes)
             # esimate a cpt for each family from data
-            for ( i in 1:n.nodes )
+            for ( i in 1:(n.nodes-1) )
             {
               print(c("node " ,i, "\n"))
               
