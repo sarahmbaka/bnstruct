@@ -60,7 +60,7 @@ hc <- function( data, node.sizes, scoring.func = 0, cpc, cont.nodes = c(), ess =
       cpc <- cpc & layers
       
       if (!is.null(custom)){
-        #cpc<-custom
+        cpc<-custom
         print("custom")
         print(custom)
         
