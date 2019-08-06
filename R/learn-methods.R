@@ -264,7 +264,8 @@ setMethod("learn.params",
             
             # data <- quantize.with.na.matrix( data, levels )
             data <- quantize.matrix( data, levels )
-
+            print("Started cpts23")
+            
             n.nodes <- dataset@num.items #dim(data)[2]
             print("Started cpts")
             cpts <- list("list",n.nodes)
@@ -297,8 +298,7 @@ setMethod("learn.params",
             }
             names(cpts) <- var.names
             
-            print( cpts )
-            
+
             cpts(bn) <- cpts
 
             bnstruct.end.log("parameter learning done.")
