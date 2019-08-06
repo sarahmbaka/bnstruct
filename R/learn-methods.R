@@ -278,8 +278,7 @@ setMethod("learn.params",
             
             for ( i in 1:n.nodes )
             {
-              print(c("node " ,i, "\n"))
-              
+
               cat("node " ,i, "\n")
               family <- c( which(dag[,i]!=0), i )
               counts <- .Call( "bnstruct_compute_counts_nas", data[,family], node.sizes[family], 
