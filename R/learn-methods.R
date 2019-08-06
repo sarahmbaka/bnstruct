@@ -135,7 +135,7 @@ setMethod("learn.dynamic.network",
             }
             
             if (!is.null(custom)){
-              #layer.struct<-custom
+              layer.struct<-custom
             }
             
             bn <- learn.structure(bn, dataset, algo, scoring.func, initial.network, alpha, ess,
