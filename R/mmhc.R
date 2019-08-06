@@ -61,6 +61,8 @@ hc <- function( data, node.sizes, scoring.func = 0, cpc, cont.nodes = c(), ess =
       
       if (!is.null(custom)){
         cpc<-custom
+        print("custom")
+        print(custom)
         
       }
       
