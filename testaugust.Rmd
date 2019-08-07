@@ -1,0 +1,213 @@
+
+```{r}
+library("bnstruct")
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(tidyverse)
+library(openxlsx)
+
+df<-read.csv("dff3.csv")
+df<-unique(df)
+claims3<-write.csv(df,"claims3.csv")
+df<-df[,c(-1,-4,-10,-16)]
+str(df)
+
+claims <- read.xlsx("~/Downloads/Chronic_Claims_Details_Actisure_updated.xlsx", sheet =3)
+df2 <- read.xlsx("~/Downloads/Chronic_Claims_Details_Actisure_updated.xlsx", sheet =2)
+df3 <- read.xlsx("~/Downloads/Chronic_Claims_Details_Actisure_updated.xlsx", sheet =1)
+
+claims<-rbind(claims,df2,df3)
+
+
+treatment_label<-unique(claims$TREATMENTDESCRIPTION)
+
+
+risk_label<-unique(claims$RISKGROUPDESC)
+diagnosis_label<-unique(claims$FIRSTDIAGNOSIS)
+```
+
+```{r}
+diagnosis_label[5]
+risk_label
+```
+
+```{r}
+
+cdatamat<-data.matrix(df)
+
+datas <- BNDataset(data = cdatamat,discreteness = c(T,T,T,T,F,T,T,T,T,F,T,T,T,T,F),  num.time.steps = 3, na.string.symbol=NA, variables = 
+                     c("DIAGNOSIS","RISKGROUP","TREATMENT","GENDER","AGE",
+                       "DIAGNOSIS_1","RISKGROUP_1","TREATMENT_1","GENDER_1","AGE_1",
+                       "DIAGNOSIS_2","RISKGROUP_2","TREATMENT_2","GENDER_2","AGE_2"
+                      ), node.size =c(177,17,65,2,5,203,18,78,2,5,212,17,83,2,5) )
+ 
+```
+
+
+```{r}
+layerstruct=matrix(0, 4, 4)
+
+layerstruct[1,2]<-1
+
+layerstruct[2,3]<-1
+layerstruct[3,4]<-1
+layerstruct[2,1]<-1
+layerstruct[3,2]<-0
+
+lay<-matrix(0,15,15)
+lay[1,2]<-1
+
+lay[2,3]<-1
+lay[4,1]<-1
+lay[5,1]<-1
+lay[2,6]<-1
+lay[7,11]<-1
+lay[6,7]<-1
+lay[7,8]<-1
+lay[9,6]<-1
+lay[10,6]<-1
+
+lay[11,12]<-1
+lay[12,13]<-1
+lay[14,11]<-1
+lay[15,11]<-1
+lay[3,6]<-1
+lay[8,11]<-1
+lay[2,10]<-0
+
+#, layer.struct=layerstruct , mandatory.edges=lay,custom=lay
+layers <- c(3,2,4,1,1,3,2,4,1,1,3,2,4,1,1)
+dbnn <- learn.dynamic.network(datas, num.time.steps = 3,algo = "mmhc",
+scoring.func = "BIC", layering=layers,layer.struct=layerstruct , mandatory.edges=lay,custom=lay)
+
+
+```
+```{r}
+plot(dbnn, node.size.lab = 30,node.width = 0.4)
+```
+
+
+```{r}
+cpts(dbnn)
+```
+
+```{r}
+obs <- list("observed.vars" = c(1,6,11),
+ "observed.vals" = c(1,1,1))
+engine <- InferenceEngine(dbnn)
+engine <- belief.propagation(engine, obs)
+new.net <- updated.bn(engine)
+
+```
+
+
+```{r}
+tables<-cpts(new.net)[[2]]
+
+tables1<-cpts(new.net)[[7]]
+
+tables2<-cpts(new.net)[[12]]
+
+tables
+```
+
+
+
+
+```{r}
+#plot( 1:65,tables[1,])
+
+
+# Fitting Labels 
+par(las=2) # make label text perpendicular to axis
+par(mar=c(5,8,4,2)) # increase y-axis margin.
+
+barplot(order(tables[1,])[1:17], main="Treatment For diabetes", horiz=TRUE, names.arg=treatment_label[order(tables[1,])[1:17]])
+```
+
+```{r}
+obs <- list("observed.vars" = c(5,4,1,2),
+ "observed.vals" = c(1,1,5,1))
+engine <- InferenceEngine(dbnn)
+engine <- belief.propagation(engine, obs)
+new.net <- updated.bn(engine)
+
+tables<-cpts(new.net)[[3]]
+
+tables
+```
+
+```{r}
+par(las=2) # make label text perpendicular to axis
+par(mar=c(5,8,4,2)) # increase y-axis margin.
+
+barplot(order(tables[1,])[1:20], main="Treatment For diabetes", horiz=TRUE, names.arg=treatment_label[order(tables[1,])[1:20]])
+```
+
+```{r}
+obs <- list("observed.vars" = c(5,4,1,2),
+ "observed.vals" = c(1,1,5,4))
+engine <- InferenceEngine(dbnn)
+engine <- belief.propagation(engine, obs)
+new.net <- updated.bn(engine)
+
+tables<-cpts(new.net)[[3]]
+
+```
+
+```{r}
+par(las=2) # make label text perpendicular to axis
+par(mar=c(5,8,4,2)) # increase y-axis margin.
+
+barplot(order(tables[4,])[1:20], main="Treatment For Blood", horiz=TRUE, names.arg=treatment_label[order(tables[4,])[1:20]])
+```
+
+```{r}
+obs <- list("observed.vars" = c(5,4,1,2),
+ "observed.vals" = c(2 ,1,5,4))
+engine <- InferenceEngine(dbnn)
+engine <- belief.propagation(engine, obs)
+new.net <- updated.bn(engine)
+
+tables<-cpts(new.net)[[3]]
+
+```
+
+```{r}
+par(las=2) # make label text perpendicular to axis
+par(mar=c(5,8,4,2)) # increase y-axis margin.
+
+barplot(order(tables[4,])[1:20], main="Treatment For Blood", horiz=TRUE, names.arg=treatment_label[order(tables[4,])[1:20]])
+```
+```{r}
+
+obs <- list("observed.vars" = c(5,4,1,2),
+ "observed.vals" = c(2 ,1,5,4))
+engine <- InferenceEngine(dbnn)
+engine <- belief.propagation(engine, obs)
+new.net <- updated.bn(engine)
+
+tables<-cpts(new.net)
+
+```
+
+```{r}
+tables<-cpts(new.net)[[3]]
+
+```
+
+```{r}
+par(las=2) # make label text perpendicular to axis
+par(mar=c(5,8,4,2)) # increase y-axis margin.
+
+barplot(order(tables[4,])[1:20], main="Treatment For Blood", horiz=TRUE, names.arg=treatment_label[order(tables[4,])[1:20]])
+```
+```{r}
+table<-cpts(new.net)
+```
+
+```{r}
+table[12]
+```
+
